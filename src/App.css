@@ -1,38 +1,66 @@
-.App {
-  text-align: center;
+.tx-primary {
+  color: var(--tx-primary);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.tx-secondary {
+  color: var(--tx-secondary);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.wallpaper {
+  background-image: var(--wp);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.bg-primary {
+  background-color: var(--bg-sub);
 }
 
-.App-link {
-  color: #61dafb;
+.bg-secondary {
+  background-color: var(--bg-main);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.m-l {
+  font-size: 14vh;
+}
+.m-m {
+  font-size: 5vh;
+}
+.m-s {
+  font-size: 2vh;
+}
+
+.s-l {
+  font-size: 6.3vh;
+}
+.s-m {
+  font-size: 4vh;
+}
+.s-s {
+  font-size: 1.8vh;
+}
+.s-ss {
+  font-size: 1.6vh;
+}
+
+.ma-3 {
+  margin-top: 3vh;
+}
+
+.ma-8 {
+  margin-top: 8.5vh;
+}
+
+.ma-7 {
+  margin-top: 7vh;
+}
+
+.p-4 {
+  padding: 4vh;
+}
+
+.p-1 {
+  padding: 1rem;
+}
+
+.py-11 {
+  padding: 0 11vw;
 }
