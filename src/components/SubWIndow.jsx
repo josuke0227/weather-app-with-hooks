@@ -64,11 +64,11 @@ const Fahrenheit = styled(RoundButton)`
   background-color: ${(props) => (props.isFahrenheit ? "E7E7EB" : "#585676")};
 `;
 
-const SubWindow = ({ setUnit, forecasts, current, isFahrenheit }) => {
+const SubWindow = ({ setUnit, forecasts, isFahrenheit }) => {
   const renderedWeather = (forecasts) => {
-    const fiveDaysForecast = forecasts.slice(1, forecasts.length);
+    const fiveDaysForecasts = forecasts.slice(1, forecasts.length);
 
-    return fiveDaysForecast.map((forecast, index) => {
+    return fiveDaysForecasts.map((forecast, index) => {
       return (
         <Card className="bg-secondary p-1" key={forecast.id} direction="column">
           {index === 0 ? (
@@ -107,6 +107,8 @@ const SubWindow = ({ setUnit, forecasts, current, isFahrenheit }) => {
     });
   };
 
+  const forecast = forecasts[0];
+
   return (
     <Sub id="sub-window" className="wallpaper" flex="78vw">
       <div style={{ textAlign: "end" }}>
@@ -126,7 +128,7 @@ const SubWindow = ({ setUnit, forecasts, current, isFahrenheit }) => {
       </FiveDaysWt>
       <div className="ma-7 tx-primary">Today's Highlights</div>
       <HighlightsContainer className="ma-3">
-        <Highlights forecasts={current} />
+        <Highlights forecast={forecast} />
       </HighlightsContainer>
     </Sub>
   );

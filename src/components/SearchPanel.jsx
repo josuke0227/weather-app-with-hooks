@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from "../App";
 import searchIconNight from "../img/icon/search-icon.svg";
 import searchIconDay from "../img/icon/search-black-18dp.svg";
 import areas from "../constants/areas";
@@ -28,11 +29,13 @@ const ResultWrapper = styled.div`
   display: flex;
   align-items: center;
   padding-left: 25px;
+  borer-color: var(--tx-primary);
+  color: var(--tx-primary);
+  cursor: pointer;
 
   :hover {
     borer-color: var(--tx-secondary);
     color: var(--tx-secondary);
-    cursor: pointer;
   }
 `;
 
@@ -54,15 +57,17 @@ const CloseIconWrapper = styled.span`
   margin-left: auto;
 `;
 
-const SearchPanel = ({
-  isDay,
-  setOpen,
-  setTerm,
-  setResults,
-  term,
-  results,
-  setCurrentLocation,
-}) => {
+const SearchPanel = () => {
+  const {
+    isDay,
+    setOpen,
+    setTerm,
+    setResults,
+    term,
+    results,
+    setCurrentLocation,
+  } = useContext(Context);
+
   const onResultClick = (result) => {
     setCurrentLocation(result);
     setOpen(false);
@@ -95,7 +100,7 @@ const SearchPanel = ({
           area={areas.search}
           name="ThreeDots"
         />
-        {results.length &&
+        {results.length > 0 &&
           results.map((result) => {
             return (
               <ResultWrapper

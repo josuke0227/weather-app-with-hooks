@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
   --bg-sub: ${(props) => (props.isDay ? "#dff9fb" : "#100e1d")};
   --bg-btn: ${(props) => (props.isDay ? "#ffffff" : "#6e707a")};
   --tx-primary: ${(props) => (props.isDay ? "black" : "#e7e7eb")};
-  --tx-secondary: ${(props) => (props.isDay ? "#535c68" : "#e7e7eb")};
+  --tx-secondary: ${(props) => (props.isDay ? "#535c68" : "#585676")};
 }
 
 `;

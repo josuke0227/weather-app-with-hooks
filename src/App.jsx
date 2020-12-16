@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import areas from "./constants/areas";
-import getCurrentLocation from "./util/getCurrentLocation";
-import getWeatherByWoeid from "./util/getWeatherByWoeid";
-import getWeatherByQuery from "./util/getWeatherByQuery";
-import "./App.css";
-
 import styled from "styled-components";
+import { trackPromise } from "react-promise-tracker";
 import GlobalStyles from "./components/styledComponents/GlobalStyles";
 import MainWindow from "./components/MainWindow";
 import SubWindow from "./components/SubWIndow";
 import MyLoader from "./components/common/MyLoader";
 import LoaderIndicator from "./components/common/LoaderIndicator";
-import { trackPromise } from "react-promise-tracker";
+import areas from "./constants/areas";
+import metaWeather from "./api/metaWeather";
+import "./App.css";
+
+export const Context = React.createContext();
 
 const Container = styled.div`
   display: flex;
@@ -47,21 +46,25 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const searchCurrentLocation = async ({ latitude, longitude }) => {
-      const result = await trackPromise(
-        getCurrentLocation(latitude, longitude),
+    const assignLocation = async ({ latitude, longitude }) => {
+      const { data } = await trackPromise(
+        metaWeather.get("search/", {
+          params: {
+            lattlong: `${latitude},${longitude}`,
+          },
+        }),
         areas.display
       );
-      setCurrentLocation(result);
+      setCurrentLocation(data[0]);
     };
 
-    searchCurrentLocation(coords);
+    assignLocation(coords);
   }, [coords, back]);
 
   useEffect(() => {
     const getWeatherData = async () => {
       const { data } = await trackPromise(
-        getWeatherByWoeid(currentLocation.woeid),
+        metaWeather.get(`${currentLocation.woeid}/`),
         areas.display
       );
       setBoolean(data.time > data.sun_rise && data.time < data.sun_set);
@@ -72,7 +75,15 @@ const App = () => {
 
   useEffect(() => {
     const search = async () => {
-      const data = await trackPromise(getWeatherByQuery(term), areas.search);
+      const { data } = await trackPromise(
+        metaWeather.get(
+          "search",
+          {
+            params: { term },
+          },
+          areas.search
+        )
+      );
       setResults(data);
     };
 
@@ -91,7 +102,15 @@ const App = () => {
     }
   }, [term]);
 
-  const current = forecasts[0];
+  const contextValue = {
+    isDay,
+    setOpen,
+    term,
+    setTerm,
+    results,
+    setResults,
+    setCurrentLocation,
+  };
 
   return (
     <React.Fragment>
@@ -107,29 +126,24 @@ const App = () => {
       />
       <Container id="container">
         {forecasts.length ? (
-          <React.Fragment>
-            <MainWindow
-              isDay={isDay}
-              open={open}
-              setOpen={setOpen}
-              term={term}
-              setTerm={setTerm}
-              results={results}
-              setResults={setResults}
-              currentLocation={currentLocation}
-              setCurrentLocation={setCurrentLocation}
-              back={back}
-              setBack={setBack}
-              current={current}
-              isFahrenheit={isFahrenheit}
-            />
+          <>
+            <Context.Provider value={contextValue}>
+              <MainWindow
+                setOpen={setOpen}
+                open={open}
+                currentLocation={currentLocation}
+                back={back}
+                setBack={setBack}
+                isFahrenheit={isFahrenheit}
+                forecasts={forecasts}
+              />
+            </Context.Provider>
             <SubWindow
               setUnit={setUnit}
               forecasts={forecasts}
-              current={current}
               isFahrenheit={isFahrenheit}
             />
-          </React.Fragment>
+          </>
         ) : (
           <MyLoader
             name="Puff"

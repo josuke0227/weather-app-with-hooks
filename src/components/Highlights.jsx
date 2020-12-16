@@ -18,7 +18,7 @@ const Highlights = (props) => {
     humidity,
     visibility,
     air_pressure,
-  } = props.forecasts;
+  } = props.forecast;
 
   const contents = [
     {
