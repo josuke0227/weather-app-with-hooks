@@ -7,7 +7,7 @@ import SubWindow from "./components/SubWIndow";
 import MyLoader from "./components/common/MyLoader";
 import LoaderIndicator from "./components/common/LoaderIndicator";
 import areas from "./constants/areas";
-import metaWeather from "./api/metaWeather";
+import metaWeather from "./services/httpService";
 import "./App.css";
 
 export const Context = React.createContext();
@@ -23,29 +23,22 @@ const Container = styled.div`
 `;
 
 const App = () => {
-  const [coords, setCoords] = useState({});
   const [currentLocation, setCurrentLocation] = useState({});
+  const [currentLocationData, setCurrentLocationData] = useState(null);
   const [forecasts, setForecasts] = useState([]);
   const [term, setTerm] = useState("");
   const [open, setOpen] = useState(false);
-  const [back, setBack] = useState(false);
   const [results, setResults] = useState([]);
   const [isFahrenheit, setUnit] = useState(false);
   const [isDay, setBoolean] = useState("");
 
   useEffect(() => {
-    const success = async (pos) => {
-      setCoords(pos.coords);
+    const defaultCity = {
+      // Sydney
+      latitude: "-33.96",
+      longitude: "151.15",
     };
 
-    const fail = async (err) => {
-      alert(err.message);
-    };
-
-    navigator.geolocation.getCurrentPosition(success, fail);
-  }, []);
-
-  useEffect(() => {
     const assignLocation = async ({ latitude, longitude }) => {
       const { data } = await trackPromise(
         metaWeather.get("search/", {
@@ -58,8 +51,28 @@ const App = () => {
       setCurrentLocation(data[0]);
     };
 
-    assignLocation(coords);
-  }, [coords, back]);
+    assignLocation(defaultCity);
+  }, []);
+
+  useEffect(() => {
+    if (currentLocationData !== null) {
+      const assignLocation = async ({ latitude, longitude }) => {
+        const { data } = await trackPromise(
+          metaWeather.get("search/", {
+            params: {
+              lattlong: `${latitude},${longitude}`,
+            },
+          }),
+          areas.display
+        );
+        setCurrentLocation(data[0]);
+      };
+
+      assignLocation(currentLocationData);
+    } else {
+      return;
+    }
+  }, [currentLocationData]);
 
   useEffect(() => {
     const getWeatherData = async () => {
@@ -76,13 +89,12 @@ const App = () => {
   useEffect(() => {
     const search = async () => {
       const { data } = await trackPromise(
-        metaWeather.get(
-          "search",
-          {
-            params: { term },
+        metaWeather.get("search", {
+          params: {
+            query: term,
           },
-          areas.search
-        )
+        }),
+        areas.search
       );
       setResults(data);
     };
@@ -112,6 +124,19 @@ const App = () => {
     setCurrentLocation,
   };
 
+  function handleGpsButtonClick() {
+    function success(pos) {
+      var crd = pos.coords;
+      setCurrentLocationData(crd);
+    }
+
+    function error(err) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+
   return (
     <React.Fragment>
       <GlobalStyles isDay={isDay} />
@@ -132,10 +157,10 @@ const App = () => {
                 setOpen={setOpen}
                 open={open}
                 currentLocation={currentLocation}
-                back={back}
-                setBack={setBack}
                 isFahrenheit={isFahrenheit}
                 forecasts={forecasts}
+                currentLocationData={currentLocationData}
+                handleGpsButtonClick={handleGpsButtonClick}
               />
             </Context.Provider>
             <SubWindow
@@ -145,15 +170,17 @@ const App = () => {
             />
           </>
         ) : (
-          <MyLoader
-            name="Puff"
-            position="absolute"
-            bgColor="#535c68"
-            color="#e7e7eb"
-            text="Getting Weather Info..."
-            width="150"
-            height="150"
-          />
+          <>
+            <MyLoader
+              name="Puff"
+              position="absolute"
+              bgColor="#535c68"
+              color="#e7e7eb"
+              text="Getting Weather Info..."
+              width="150"
+              height="150"
+            />
+          </>
         )}
       </Container>
     </React.Fragment>

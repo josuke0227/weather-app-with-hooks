@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
+import styled from "styled-components";
+import areas from "../constants/areas";
 import { Context } from "../App";
 import searchIconNight from "../img/icon/search-icon.svg";
 import searchIconDay from "../img/icon/search-black-18dp.svg";
-import areas from "../constants/areas";
-import styled from "styled-components";
 import Icon from "./common/Icon";
 import LoaderIndicator from "./common/LoaderIndicator";
 

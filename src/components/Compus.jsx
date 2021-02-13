@@ -1,8 +1,8 @@
 import React from "react";
-import Icon from "./common/Icon";
 import styled from "styled-components";
+import Icon from "./common/Icon";
 
-const WindowDirWrapper = styled.div`
+const WindDirWrapper = styled.div`
   display: flex;
   justify-content: center;
   grid-column-gap: 1rem;
@@ -19,7 +19,7 @@ const CompusCase = styled.div`
 
 const WindowDirectionIndicator = ({ dir, deg }) => {
   return (
-    <WindowDirWrapper className="ma-3">
+    <WindDirWrapper className="ma-3">
       <CompusCase>
         <Icon
           name="navigation"
@@ -29,7 +29,7 @@ const WindowDirectionIndicator = ({ dir, deg }) => {
         />
       </CompusCase>
       <span className="s-ss tx-secondary">{dir}</span>
-    </WindowDirWrapper>
+    </WindDirWrapper>
   );
 };
 

@@ -1,10 +1,9 @@
 import React from "react";
+import styled from "styled-components";
 import Icon from "./common/Icon";
 import ImageGenerator from "./common/ImageGenerator";
 import Temparature from "./common/Temparature";
 import SearchPanel from "./SearchPanel";
-
-import styled from "styled-components";
 import RoundButton from "./styledComponents/RoundButton";
 import SquareButton from "./styledComponents/SquareButton";
 import FlexItem from "./styledComponents/FlexItem";
@@ -13,15 +12,13 @@ import DateIndicator from "./common/DateIndicator";
 
 const MainPanel = styled(FlexItem)`
   text-align: center;
-  overflow: hidden;
 `;
 
 const MainWindow = ({
   setOpen,
   open,
   currentLocation,
-  back,
-  setBack,
+  handleGpsButtonClick,
   isFahrenheit,
   forecasts,
 }) => {
@@ -36,7 +33,7 @@ const MainWindow = ({
           <FlexContainer id="main-widgets" yAlign>
             <SquareButton onClick={() => setOpen(true)}>Search</SquareButton>
             <RoundButton
-              onClick={() => setBack(!back)}
+              onClick={handleGpsButtonClick}
               style={{ marginLeft: "auto" }}
             >
               <Icon name="gps_fixed" />

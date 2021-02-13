@@ -1,8 +1,7 @@
 import React from "react";
+import styled from "styled-components";
 import Compus from "./Compus";
 import PercentageBar from "./PercentageBar";
-
-import styled from "styled-components";
 
 const HighlightPanel = styled.div`
   display: flex;
