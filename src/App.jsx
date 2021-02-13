@@ -14,7 +14,6 @@ export const Context = React.createContext();
 
 const Container = styled.div`
   display: flex;
-  background-color: green;
   height: 100vh;
 
   @media (max-width: 1100px) {
@@ -127,7 +126,7 @@ const App = () => {
     }
 
     function error(err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
+      alert(`ERROR(${err.code}): ${err.message}`);
     }
 
     navigator.geolocation.getCurrentPosition(success, error);
@@ -136,16 +135,16 @@ const App = () => {
   return (
     <React.Fragment>
       <GlobalStyles isDay={isDay} />
-      <LoaderIndicator
-        name="Puff"
-        bgColor="rgba(0, 0, 0, 0.5)"
-        color="#ffec65"
-        position="absolute"
-        area={areas.display}
-        width="150"
-        height="150"
-      />
       <Container id="container">
+        <LoaderIndicator
+          name="Puff"
+          bgColor="rgba(0, 0, 0, 0.5)"
+          color="#ffec65"
+          position="absolute"
+          area={areas.display}
+          width="150"
+          height="150"
+        />
         {forecasts.length ? (
           <>
             <Context.Provider value={contextValue}>
