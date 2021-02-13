@@ -99,20 +99,16 @@ const App = () => {
       setResults(data);
     };
 
-    if (term && !results.length) {
-      search();
-    } else {
-      const timeoutId = setTimeout(() => {
-        if (term) {
-          search();
-        }
-      }, 800);
+    const timeoutId = setTimeout(() => {
+      if (term) {
+        search();
+      }
+    }, 800);
 
-      return () => {
-        clearTimeout(timeoutId);
-      };
-    }
-  }, [term, results.length]);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [term]);
 
   const contextValue = {
     isDay,
