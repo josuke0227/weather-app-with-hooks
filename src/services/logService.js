@@ -1,7 +1,7 @@
 import * as Sentry from "@sentry/browser";
 import { Integrations } from "@sentry/tracing";
 
-function init() {
+export function init() {
   Sentry.init({
     dsn:
       "https://b118e40662be4e958e8f56feaf255b9b@o421001.ingest.sentry.io/5559834",
@@ -12,11 +12,11 @@ function init() {
   });
 }
 
-function log(error) {
+export function log(error) {
   Sentry.captureException(error);
 }
 
-export default {
-  init,
-  log,
-};
+// export default {
+//   init,
+//   log,
+// };

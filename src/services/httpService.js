@@ -1,5 +1,5 @@
 import axios from "axios";
-import logger from "./logService";
+import { log } from "./logService";
 
 export default axios.create({
   baseURL:
@@ -13,7 +13,7 @@ axios.interceptors.response.use(null, (error) => {
     error.response.status < 500;
 
   if (!expectedError) {
-    logger.log(error);
+    log(error);
     alert.error("An unexpected error occurred");
   }
   return Promise.reject(error);
