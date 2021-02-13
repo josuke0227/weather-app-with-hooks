@@ -112,7 +112,7 @@ const App = () => {
         clearTimeout(timeoutId);
       };
     }
-  }, [term]);
+  }, [term, results.length]);
 
   const contextValue = {
     isDay,
