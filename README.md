@@ -1,3 +1,9 @@
+# Before Start Using
+
+This project uses CORS-anywhere.
+Before trying this app, please go https://cors-anywhere.herokuapp.com/corsdemo and
+make request of temporary access to demo server by pushing button in the link above.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
